@@ -25,7 +25,7 @@ This tool demonstrates a practical, scalable approach to GRC that reduces manual
 
 1. **Clone the Repository:**
  ```bash
- git clone [https://github.com/](https://github.com/)[YourUsername]/GRC-Automated-Control-Gap-Analyzer.git
+ git clone https://github.com/gnanadeepakny/GRC-Automated-Control-Gap-Analyzer.git
  cd GRC-Automated-Control-Gap-Analyzer
  ```
 2. **Configure Input:** Edit the files in the `controls/` directory:

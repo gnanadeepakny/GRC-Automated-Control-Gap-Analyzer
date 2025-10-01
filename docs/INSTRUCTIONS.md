@@ -11,7 +11,7 @@ This guide provides instructions for setting up and running the Automated GRC Co
 
 1. **Clone the Repository:**
  ```bash
- git clone [Your HTTPS Git URL Here]
+ git clone https://github.com/gnanadeepakny/GRC-Automated-Control-Gap-Analyzer.git
  cd GRC-Automated-Control-Gap-Analyzer
  ```
 2. **Verify Directory Structure:** Ensure the following folders exist in the project root:
