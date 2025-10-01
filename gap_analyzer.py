@@ -89,6 +89,39 @@ def analyze_gaps(required_controls, vendor_text):
             identified_gaps.append(control)
  
     return identified_gaps
+
+def generate_report(gaps, required_controls):
+    """Writes the identified gaps to a dated, professional report file."""
+ 
+    # Create a unique filename with a timestamp
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
+    report_filename = os.path.join(REPORT_DIR, f"gap_report_{timestamp}.txt")
+ 
+    total_controls = len(required_controls)
+    gaps_found = len(gaps)
+    compliant_count = total_controls - gaps_found
+ 
+    with open(report_filename, 'w', encoding='utf-8') as f:
+        f.write(f"GRC CONTROL GAP ANALYSIS REPORT\n")
+        f.write(f"Generated On: {datetime.now().strftime('%Y-%m-%d at %H:%M:%S')}\n")
+        f.write("-" * 50 + "\n")
+ 
+        # Summary Section
+        f.write("--- SUMMARY ---\n")
+        f.write(f"Total Controls Required: {total_controls}\n")
+        f.write(f"Controls Found Compliant: {compliant_count}\n")
+        f.write(f"Control Gaps Identified: {gaps_found}\n")
+        f.write("-" * 50 + "\n\n")
+ 
+        # Detailed Gaps Section
+        if gaps:
+            f.write("--- DETAILED CONTROL GAPS (HIGH RISK) ---\n")
+            for i, gap in enumerate(gaps, 1):
+                f.write(f"{i}. [MISSING] {gap}\n")
+        else:
+            f.write("CONGRATULATIONS: No significant control gaps were identified.\n")
+
+    return report_filename
 # ===============================================
 # 3. Main Execution Block (for testing)
 # ===============================================
@@ -114,14 +147,19 @@ if __name__ == "__main__":
         # Call the new analysis function
         gaps = analyze_gaps(controls, vendor_data)
  
-        # Print the results to the console (Day 4 Goal)
+        # Print the results to the console (Updated for Day 5)
         if gaps:
-            print("\n--- GAPS IDENTIFIED (Day 4 Console Output) ---")
+            # Generate the professional report file
+            report_path = generate_report(gaps, controls)
+ 
+            print(f"\n--- GAPS IDENTIFIED ---")
             print(f"Total Gaps Found: {len(gaps)}")
-            for i, gap in enumerate(gaps, 1):
-                print(f" {i}. {gap}")
-            print("\nAnalysis complete. Ready for professional reporting on Day 5.")
+            print(f"Success! Report generated and saved to: {report_path}")
+            print("\nDay 5 complete. Ready for final documentation and polish.")
+ 
         else:
-            print("\nNo gaps identified. Vendor is fully compliant.")
+            report_path = generate_report(gaps, controls)
+            print(f"\nNo gaps identified. Compliant report saved to: {report_path}")
+
     else:
         print("\n--- ERROR --- Data loading failed. Check inputs.")
