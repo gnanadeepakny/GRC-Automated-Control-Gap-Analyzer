@@ -1,0 +1,26 @@
+Control_Keyword,Risk_Score
+multi-factor authentication (mfa),5
+data at rest is encrypted,4
+annual independent penetration testing,5
+vendor offboarding process,3
+logs are retained for a minimum of 90 days,3
+dr plan is tested annually,4
+patched within 30 days of critical vulnerability,5
+employee background checks,1
+security awareness training is mandatory every 12 months,2
+data is logically segmented,5
+incident response (ir) plan is documented and tested,4
+data is backed up daily,3
+waf (web application firewall) is deployed,4
+data processing agreements (dpas),2
+formal risk register reviewed by management quarterly,3
+principle of least privilege is applied,5
+code changes require formal peer review,4
+data encryption keys are managed and rotated,5
+vulnerability scans are performed monthly,3
+security configuration baselines are defined and enforced,4
+termination of access is performed within 2 hours,5
+media containing sensitive data is securely wiped,4
+network intrusion detection systems (ids) monitor key segments,4
+vendors must provide documented evidence of their own sub-processor oversight,3
+business impact analysis (bia) is performed,3

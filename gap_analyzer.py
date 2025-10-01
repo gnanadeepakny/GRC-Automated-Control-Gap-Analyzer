@@ -1,4 +1,5 @@
 import os
+import csv
 from datetime import datetime
 
 # ---------------------------------------------------------------------
@@ -11,10 +12,10 @@ from datetime import datetime
 # 1. Configuration: Define File Paths
 # ===============================================
 
-# Use os.path.join for cross-platform compatibility
+# --- Configuration ---
 CONTROL_FILE = os.path.join('controls', 'required_controls.txt')
 VENDOR_FILE = os.path.join('controls', 'vendor_profile.txt')
-# Output will go to the 'reports' directory
+RISK_WEIGHTS_FILE = os.path.join('controls', 'risk_weightings.csv')
 REPORT_DIR = 'reports'
 
 # ===============================================
@@ -51,8 +52,26 @@ def load_data():
     except FileNotFoundError:
         print(f"Error: Vendor profile file not found at {VENDOR_FILE}")
         return None, None
+    
+    # 3. Load Risk Weightings from CSV
+    risk_weights = {}
+    try:
+        with open(RISK_WEIGHTS_FILE, mode='r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                # Store the keyword and its integer score
+                risk_weights[row['Control_Keyword']] = int(row['Risk_Score'])
+    except FileNotFoundError:
+        print(f"Error: Risk weightings file not found at {RISK_WEIGHTS_FILE}")
+        return None, None, None
+    except Exception as e:
+        print(f"Error reading risk weights: {e}")
+        return None, None, None
  
-    return required_controls, vendor_text
+    print(f"Successfully loaded {len(required_controls)} required controls and {len(risk_weights)} risk weights.")
+ 
+    # RETURN VALUE IS NOW THREE ITEMS
+    return required_controls, vendor_text, risk_weights
 
 # --- NEW: Dictionary for robust keyword searching ---
 # Map the full control text to a concise, unique phrase expected in the vendor document.
@@ -85,22 +104,26 @@ control_keywords = {
 }
 
 
-def analyze_gaps(required_controls, vendor_text):
-    """
-    Compares required controls against vendor text using predefined keywords 
-    to identify missing controls more robustly.
-    """
+def analyze_gaps(required_controls, vendor_text, risk_weights): 
+    #Compares required controls against vendor text and attaches the risk score to each gap.
+ 
     identified_gaps = []
  
-    # Use the static control_keywords map defined above
     for control, search_term in control_keywords.items():
-        # NOTE: We use keyword mapping instead of the full control text 
-        # for robust, case-insensitive, and flexible matching against the vendor document.
-
-        # Check if the search term is NOT found in the vendor's policy text
-        if search_term not in vendor_text:
-            identified_gaps.append(control)
  
+        if search_term not in vendor_text:
+            # Look up the score using the search_term (keyword)
+            score = risk_weights.get(search_term, 1) # Default to 1 if score is missing
+
+            identified_gaps.append({
+                'Control': control,
+                'Keyword': search_term,
+                'Score': score
+            })
+ 
+    # Sort the gaps by Score (highest risk first)
+    identified_gaps.sort(key=lambda x: x['Score'], reverse=True)
+
     return identified_gaps
 
 def generate_report(gaps, required_controls):
@@ -128,9 +151,13 @@ def generate_report(gaps, required_controls):
  
         # Detailed Gaps Section
         if gaps:
-            f.write("--- DETAILED CONTROL GAPS (HIGH RISK) ---\n")
+            f.write("--- DETAILED CONTROL GAPS (PRIORITIZED BY RISK SCORE) ---\n")
+            f.write("Risk Score (1-5): 5=Critical, 1=Low\n")
+            f.write("-" * 50 + "\n")
+
             for i, gap in enumerate(gaps, 1):
-                f.write(f"{i}. [MISSING] {gap}\n")
+                # Access the score from the dictionary structure
+                f.write(f"{i}. [RISK: {gap['Score']}] {gap['Control']}\n")
         else:
             f.write("CONGRATULATIONS: No significant control gaps were identified.\n")
 
@@ -140,39 +167,35 @@ def generate_report(gaps, required_controls):
 # ===============================================
 
 if __name__ == "__main__":
- 
+
     # Check if the reports directory exists, create it if not (Error Handling)
     if not os.path.exists(REPORT_DIR):
         os.makedirs(REPORT_DIR)
         print(f"Created output directory: {REPORT_DIR}")
 
     print("--- Starting GRC Control Gap Analyzer ---")
- 
-    # Load the data
-    controls, vendor_data = load_data()
- 
-    if controls and vendor_data:
+
+    # Load the data - NOW EXPECTS 3 RETURN VALUES
+    controls, vendor_data, risk_weights = load_data()
+
+    if controls and vendor_data and risk_weights:
         print(f"Successfully loaded {len(controls)} required controls.")
- 
-        # --- NEW CODE: Run the Core Analysis ---
-        print("\nInitiating Gap Analysis...")
- 
-        # Call the new analysis function
-        gaps = analyze_gaps(controls, vendor_data)
- 
-        # Print the results to the console (Updated for Day 5)
+
+        # Run the Core Analysis - PASSES RISK_WEIGHTS
+        print("\nInitiating Risk-Based Gap Analysis...")
+        gaps = analyze_gaps(controls, vendor_data, risk_weights) # ADDED ARGUMENT
+
+        # Generate the professional report file
         if gaps:
-            # Generate the professional report file
             report_path = generate_report(gaps, controls)
- 
+
             print(f"\n--- GAPS IDENTIFIED ---")
             print(f"Total Gaps Found: {len(gaps)}")
-            print(f"Success! Report generated and saved to: {report_path}")
-            print("\nDay 5 complete. Ready for final documentation and polish.")
- 
+            print(f"Success! Risk-Prioritized Report saved to: {report_path}")
+            print("\nDay 10 complete. Stretch goal achieved!")
+
         else:
             report_path = generate_report(gaps, controls)
             print(f"\nNo gaps identified. Compliant report saved to: {report_path}")
-
     else:
         print("\n--- ERROR --- Data loading failed. Check inputs.")

@@ -1,0 +1,35 @@
+GRC CONTROL GAP ANALYSIS REPORT
+Generated On: 2025-10-01 at 18:30:33
+--------------------------------------------------
+--- SUMMARY ---
+Total Controls Required: 25
+Controls Found Compliant: 2
+Control Gaps Identified: 23
+--------------------------------------------------
+
+--- DETAILED CONTROL GAPS (PRIORITIZED BY RISK SCORE) ---
+Risk Score (1-5): 5=Critical, 1=Low
+--------------------------------------------------
+1. [RISK: 5] Multi-Factor Authentication (MFA) is enforced for all external access.
+2. [RISK: 5] Annual independent penetration testing is conducted and remediation tracked.
+3. [RISK: 5] All systems are patched within 30 days of critical vulnerability release.
+4. [RISK: 5] Customer data is logically segmented from other client data.
+5. [RISK: 5] Principle of Least Privilege is applied to all user accounts.
+6. [RISK: 5] Data encryption keys are managed and rotated using a centralized vault.
+7. [RISK: 5] Termination of access is performed within 2 hours of employee separation.
+8. [RISK: 4] Data at rest is encrypted using AES-256 or stronger cipher.
+9. [RISK: 4] Disaster Recovery (DR) plan is tested annually.
+10. [RISK: 4] A formal Incident Response (IR) plan is documented and tested.
+11. [RISK: 4] WAF (Web Application Firewall) is deployed for all internet-facing apps.
+12. [RISK: 4] Code changes require formal peer review and approval before deployment.
+13. [RISK: 4] Security configuration baselines are defined and enforced (e.g., CIS Benchmarks).
+14. [RISK: 4] Media (e.g., hard drives) containing sensitive data is securely wiped or destroyed.
+15. [RISK: 4] Network intrusion detection systems (IDS) monitor key segments.
+16. [RISK: 3] Formal vendor offboarding process exists and is tested.
+17. [RISK: 3] System access logs are retained for a minimum of 90 days.
+18. [RISK: 3] Data is backed up daily and stored offsite or in a separate zone.
+19. [RISK: 3] Formal risk register reviewed by management quarterly.
+20. [RISK: 3] Vulnerability scans are performed monthly against all production assets.
+21. [RISK: 3] Vendors must provide documented evidence of their own sub-processor oversight.
+22. [RISK: 3] Business Impact Analysis (BIA) is performed to determine system criticality.
+23. [RISK: 2] Security awareness training is mandatory every 12 months.
