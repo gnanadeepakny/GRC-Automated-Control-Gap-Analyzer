@@ -42,27 +42,86 @@ def load_data():
     # Return the data we'll need for the next step (gap analysis)
     return required_controls, vendor_text
 
+# --- NEW: Dictionary for robust keyword searching ---
+# Map the full control text to a concise, unique phrase expected in the vendor document.
+control_keywords = {
+    "Multi-Factor Authentication (MFA) is enforced for all external access.": "multi-factor authentication (mfa)",
+    "Data at rest is encrypted using AES-256 or stronger cipher.": "data at rest is encrypted",
+    "Annual independent penetration testing is conducted and remediation tracked.": "annual independent penetration testing",
+    "Formal vendor offboarding process exists and is tested.": "vendor offboarding process",
+    "System access logs are retained for a minimum of 90 days.": "logs are retained for a minimum of 90 days",
+    "Disaster Recovery (DR) plan is tested annually.": "dr plan is tested annually",
+    "All systems are patched within 30 days of critical vulnerability release.": "patched within 30 days of critical vulnerability",
+    "Employee background checks are conducted pre-hire.": "employee background checks",
+    "Security awareness training is mandatory every 12 months.": "security awareness training is mandatory every 12 months",
+    "Customer data is logically segmented from other client data.": "data is logically segmented",
+    "A formal Incident Response (IR) plan is documented and tested.": "incident response (ir) plan is documented and tested",
+    "Data is backed up daily and stored offsite or in a separate zone.": "data is backed up daily",
+    "WAF (Web Application Firewall) is deployed for all internet-facing apps.": "waf (web application firewall) is deployed",
+    "Data processing agreements (DPAs) are in place for PII handling.": "data processing agreements (dpas)",
+    "Formal risk register reviewed by management quarterly.": "formal risk register reviewed by management quarterly",
+    "Principle of Least Privilege is applied to all user accounts.": "principle of least privilege is applied",
+    "Code changes require formal peer review and approval before deployment.": "code changes require formal peer review",
+    "Data encryption keys are managed and rotated using a centralized vault.": "data encryption keys are managed and rotated",
+    "Vulnerability scans are performed monthly against all production assets.": "vulnerability scans are performed monthly",
+    "Security configuration baselines are defined and enforced (e.g., CIS Benchmarks).": "security configuration baselines are defined and enforced",
+    "Termination of access is performed within 2 hours of employee separation.": "termination of access is performed within 2 hours",
+    "Media (e.g., hard drives) containing sensitive data is securely wiped or destroyed.": "media containing sensitive data is securely wiped",
+    "Network intrusion detection systems (IDS) monitor key segments.": "network intrusion detection systems (ids) monitor key segments",
+    "Vendors must provide documented evidence of their own sub-processor oversight.": "vendors must provide documented evidence of their own sub-processor oversight",
+    "Business Impact Analysis (BIA) is performed to determine system criticality.": "business impact analysis (bia) is performed",
+}
 
+
+def analyze_gaps(required_controls, vendor_text):
+    """
+    Compares required controls against vendor text using predefined keywords 
+    to identify missing controls more robustly.
+    """
+    identified_gaps = []
+ 
+    # Use the static control_keywords map defined above
+    for control, search_term in control_keywords.items():
+        # The vendor_text was already converted to lowercase in load_data()
+ 
+        # Check if the search term is NOT found in the vendor's policy text
+        if search_term not in vendor_text:
+            identified_gaps.append(control)
+ 
+    return identified_gaps
 # ===============================================
 # 3. Main Execution Block (for testing)
 # ===============================================
 
 if __name__ == "__main__":
-    print("--- Starting GRC Control Gap Analyzer Setup ---")
  
     # Check if the reports directory exists, create it if not (Error Handling)
     if not os.path.exists(REPORT_DIR):
         os.makedirs(REPORT_DIR)
         print(f"Created output directory: {REPORT_DIR}")
 
+    print("--- Starting GRC Control Gap Analyzer ---")
+ 
     # Load the data
     controls, vendor_data = load_data()
  
-    # Simple check to confirm data loaded (for today's test)
     if controls and vendor_data:
-        print("\n--- TEST SUCCESSFUL ---")
-        print(f"First 3 Controls: {controls[:3]}")
-        print(f"Vendor data length: {len(vendor_data)} characters")
-        print("Ready for gap analysis on Day 4!")
+        print(f"Successfully loaded {len(controls)} required controls.")
+ 
+        # --- NEW CODE: Run the Core Analysis ---
+        print("\nInitiating Gap Analysis...")
+ 
+        # Call the new analysis function
+        gaps = analyze_gaps(controls, vendor_data)
+ 
+        # Print the results to the console (Day 4 Goal)
+        if gaps:
+            print("\n--- GAPS IDENTIFIED (Day 4 Console Output) ---")
+            print(f"Total Gaps Found: {len(gaps)}")
+            for i, gap in enumerate(gaps, 1):
+                print(f" {i}. {gap}")
+            print("\nAnalysis complete. Ready for professional reporting on Day 5.")
+        else:
+            print("\nNo gaps identified. Vendor is fully compliant.")
     else:
-        print("\n--- TEST FAILED: Check file names and paths. ---")
+        print("\n--- ERROR --- Data loading failed. Check inputs.")
