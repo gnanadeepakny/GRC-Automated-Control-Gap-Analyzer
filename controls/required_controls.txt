@@ -1,0 +1,25 @@
+Multi-Factor Authentication (MFA) is enforced for all external access.
+Data at rest is encrypted using AES-256 or stronger cipher.
+Annual independent penetration testing is conducted and remediation tracked.
+Formal vendor offboarding process exists and is tested.
+System access logs are retained for a minimum of 90 days.
+Disaster Recovery (DR) plan is tested annually.
+All systems are patched within 30 days of critical vulnerability release.
+Employee background checks are conducted pre-hire.
+Security awareness training is mandatory every 12 months.
+Customer data is logically segmented from other client data.
+A formal Incident Response (IR) plan is documented and tested.
+Data is backed up daily and stored offsite or in a separate zone.
+WAF (Web Application Firewall) is deployed for all internet-facing apps.
+Data processing agreements (DPAs) are in place for PII handling.
+Formal risk register reviewed by management quarterly.
+Principle of Least Privilege is applied to all user accounts.
+Code changes require formal peer review and approval before deployment.
+Data encryption keys are managed and rotated using a centralized vault.
+Vulnerability scans are performed monthly against all production assets.
+Security configuration baselines are defined and enforced (e.g., CIS Benchmarks).
+Termination of access is performed within 2 hours of employee separation.
+Media (e.g., hard drives) containing sensitive data is securely wiped or destroyed.
+Network intrusion detection systems (IDS) monitor key segments.
+Vendors must provide documented evidence of their own sub-processor oversight.
+Business Impact Analysis (BIA) is performed to determine system criticality.

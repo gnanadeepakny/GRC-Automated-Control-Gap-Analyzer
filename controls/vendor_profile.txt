@@ -1,0 +1,12 @@
+The Vendor Security Program strictly enforces the Principle of Least Privilege for all user accounts and utilizes a robust Web Application Firewall (WAF) for all internet-facing applications. 
+Our team ensures that all client data is highly protected and logically segmented from any other environment.
+A formal Incident Response (IR) plan is in place and is tested quarterly to maintain readiness. 
+Data backups are performed every day, with copies stored securely in a distinct geographical location for resilience. 
+All employees receive mandatory Security Awareness Training every 12 months.
+Our system patch management policy dictates that all high-risk vulnerabilities must be addressed within 30 days of release. 
+We conduct weekly vulnerability scanning across all production assets to identify configuration drift. 
+Employee background checks are a mandatory part of our pre-hire screening process.
+All code changes for production systems are subject to formal peer review and approval before deployment, ensuring quality and security. 
+The management team reviews the formal risk register on a quarterly basis, tracking key risks and mitigation efforts. 
+Our Data Processing Agreements (DPAs) are legally executed for all transactions involving PII.
+
