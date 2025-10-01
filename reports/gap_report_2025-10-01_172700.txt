@@ -1,0 +1,33 @@
+GRC CONTROL GAP ANALYSIS REPORT
+Generated On: 2025-10-01 at 17:27:00
+--------------------------------------------------
+--- SUMMARY ---
+Total Controls Required: 25
+Controls Found Compliant: 2
+Control Gaps Identified: 23
+--------------------------------------------------
+
+--- DETAILED CONTROL GAPS (HIGH RISK) ---
+1. [MISSING] Multi-Factor Authentication (MFA) is enforced for all external access.
+2. [MISSING] Data at rest is encrypted using AES-256 or stronger cipher.
+3. [MISSING] Annual independent penetration testing is conducted and remediation tracked.
+4. [MISSING] Formal vendor offboarding process exists and is tested.
+5. [MISSING] System access logs are retained for a minimum of 90 days.
+6. [MISSING] Disaster Recovery (DR) plan is tested annually.
+7. [MISSING] All systems are patched within 30 days of critical vulnerability release.
+8. [MISSING] Security awareness training is mandatory every 12 months.
+9. [MISSING] Customer data is logically segmented from other client data.
+10. [MISSING] A formal Incident Response (IR) plan is documented and tested.
+11. [MISSING] Data is backed up daily and stored offsite or in a separate zone.
+12. [MISSING] WAF (Web Application Firewall) is deployed for all internet-facing apps.
+13. [MISSING] Formal risk register reviewed by management quarterly.
+14. [MISSING] Principle of Least Privilege is applied to all user accounts.
+15. [MISSING] Code changes require formal peer review and approval before deployment.
+16. [MISSING] Data encryption keys are managed and rotated using a centralized vault.
+17. [MISSING] Vulnerability scans are performed monthly against all production assets.
+18. [MISSING] Security configuration baselines are defined and enforced (e.g., CIS Benchmarks).
+19. [MISSING] Termination of access is performed within 2 hours of employee separation.
+20. [MISSING] Media (e.g., hard drives) containing sensitive data is securely wiped or destroyed.
+21. [MISSING] Network intrusion detection systems (IDS) monitor key segments.
+22. [MISSING] Vendors must provide documented evidence of their own sub-processor oversight.
+23. [MISSING] Business Impact Analysis (BIA) is performed to determine system criticality.

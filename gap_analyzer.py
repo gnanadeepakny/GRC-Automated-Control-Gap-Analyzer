@@ -1,6 +1,12 @@
 import os
 from datetime import datetime
 
+# ---------------------------------------------------------------------
+# GRC-Automated-Control-Gap-Analyzer
+# Purpose: Compares a set of required security controls against a vendor policy document to automate third-party risk assessment.
+# Author: GnanaDeepak Yadav Nammi
+# ---------------------------------------------------------------------
+
 # ===============================================
 # 1. Configuration: Define File Paths
 # ===============================================
@@ -16,30 +22,36 @@ REPORT_DIR = 'reports'
 # ===============================================
 
 def load_data():
-    """Reads and processes data from input files."""
+    """Reads input data, converting vendor text to lowercase for analysis."""
  
-    # 2a. Load Required Controls
+    # 1. Load Required Controls
     try:
         with open(CONTROL_FILE, 'r', encoding='utf-8') as f:
-            # Read each line, strip excess whitespace/newlines, and convert to a list of strings
+            # Read each line, strip excess whitespace/newlines, and ensure the line isn't empty
             required_controls = [line.strip() for line in f if line.strip()]
+ 
+        if not required_controls:
+            print(f"Warning: The required controls file ({CONTROL_FILE}) is empty.")
+            return None, None
+ 
     except FileNotFoundError:
         print(f"Error: Required controls file not found at {CONTROL_FILE}")
         return None, None
  
-    # 2b. Load Vendor Profile Text
+    # 2. Load Vendor Profile Text (converted to lowercase)
     try:
         with open(VENDOR_FILE, 'r', encoding='utf-8') as f:
-            # Read the entire vendor document into a single, clean string, 
-            # and convert it to lowercase for case-insensitive matching later.
-           vendor_text = f.read().replace('\n', ' ').strip().lower()
+            # Read the entire vendor document into a single, clean, lowercase string
+            vendor_text = f.read().replace('\n', ' ').strip().lower()
+
+        if not vendor_text:
+            print(f"Warning: The vendor profile file ({VENDOR_FILE}) is empty.")
+            return None, None
+ 
     except FileNotFoundError:
         print(f"Error: Vendor profile file not found at {VENDOR_FILE}")
         return None, None
  
-    print(f"Successfully loaded {len(required_controls)} required controls.")
- 
-    # Return the data we'll need for the next step (gap analysis)
     return required_controls, vendor_text
 
 # --- NEW: Dictionary for robust keyword searching ---
@@ -82,8 +94,9 @@ def analyze_gaps(required_controls, vendor_text):
  
     # Use the static control_keywords map defined above
     for control, search_term in control_keywords.items():
-        # The vendor_text was already converted to lowercase in load_data()
- 
+        # NOTE: We use keyword mapping instead of the full control text 
+        # for robust, case-insensitive, and flexible matching against the vendor document.
+
         # Check if the search term is NOT found in the vendor's policy text
         if search_term not in vendor_text:
             identified_gaps.append(control)
